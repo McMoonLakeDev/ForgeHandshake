@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>ForgeHandshakeParent</artifactId>
+        <groupId>com.mcmoonlake</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>ForgeHandshake-Core-Spigot</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- API Dependency -->
+        <dependency>
+            <groupId>com.mcmoonlake</groupId>
+            <artifactId>ForgeHandshakeAPI</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- MoonLake Dependency --> <!-- 当依赖核心插件时, 只需要依赖 API 模块即可开发 -->
+        <dependency>
+            <groupId>com.mcmoonlake</groupId>
+            <artifactId>MoonLakeAPI</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Spigot Dependency -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Bukkit Dependency -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- CraftBukkit Dependency -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
