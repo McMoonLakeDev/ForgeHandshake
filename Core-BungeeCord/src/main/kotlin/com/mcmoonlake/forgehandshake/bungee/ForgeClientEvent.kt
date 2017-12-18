@@ -17,21 +17,21 @@
 
 package com.mcmoonlake.forgehandshake.bungee
 
-import com.mcmoonlake.forgehandshake.api.ForgeInstance
-import com.mcmoonlake.forgehandshake.api.ForgeManager
-import net.md_5.bungee.api.plugin.Plugin
+import com.mcmoonlake.forgehandshake.api.ForgeEvent
+import com.mcmoonlake.forgehandshake.api.Mods
+import net.md_5.bungee.api.plugin.Event
 
-class Main : Plugin(), ForgeInstance {
+class ForgeClientEvent(
+        override val player: String,
+        override val mods: Mods?,
+        override var reason: String = "Kick") : Event(), ForgeEvent {
 
-    private var forgeManager: ForgeManager? = null
+    private var cancel = false
 
-    override fun onEnable() {
-        forgeManager = ForgeManagerBungee(this)
-        forgeManager?.initialize()
-    }
+    override var isCancelled: Boolean
+        get() = cancel
+        set(value) { cancel = value }
 
-    override fun onDisable() {
-        forgeManager?.close()
-        forgeManager = null
-    }
+    override val isRealName: Boolean
+        get() = true
 }

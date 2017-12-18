@@ -15,23 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.mcmoonlake.forgehandshake.bungee
+package com.mcmoonlake.forgehandshake
 
-import com.mcmoonlake.forgehandshake.api.ForgeInstance
-import com.mcmoonlake.forgehandshake.api.ForgeManager
-import net.md_5.bungee.api.plugin.Plugin
+import com.mcmoonlake.api.event.MoonLakeEvent
+import com.mcmoonlake.forgehandshake.api.ForgeEvent
+import com.mcmoonlake.forgehandshake.api.Mods
+import org.bukkit.event.HandlerList
 
-class Main : Plugin(), ForgeInstance {
+class ForgeClientEvent(
+        override val player: String,
+        override val mods: Mods?,
+        override var reason: String = "Kick") : MoonLakeEvent(), ForgeEvent {
 
-    private var forgeManager: ForgeManager? = null
+    private var cancel = false
 
-    override fun onEnable() {
-        forgeManager = ForgeManagerBungee(this)
-        forgeManager?.initialize()
-    }
+    override var isCancelled: Boolean
+        get() = cancel
+        set(value) { cancel = value }
 
-    override fun onDisable() {
-        forgeManager?.close()
-        forgeManager = null
+    override val isRealName: Boolean
+        get() = false
+
+    override fun getHandlers(): HandlerList
+            = handlerList
+
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
 }

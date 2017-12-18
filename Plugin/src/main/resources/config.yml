@@ -1,9 +1,0 @@
-# ForgeHandshake 插件
-# 作者：lgou2w
-
-# 插件版本号
-version: ${project.version}
-
-# 插件的前缀
-Prefix: '[&aForgeHandshake&f] '
-

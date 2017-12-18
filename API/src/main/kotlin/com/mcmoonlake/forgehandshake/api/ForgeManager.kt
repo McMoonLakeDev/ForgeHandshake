@@ -15,23 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.mcmoonlake.forgehandshake.bungee
+package com.mcmoonlake.forgehandshake.api
 
-import com.mcmoonlake.forgehandshake.api.ForgeInstance
-import com.mcmoonlake.forgehandshake.api.ForgeManager
-import net.md_5.bungee.api.plugin.Plugin
+import java.io.Closeable
+import java.util.concurrent.ConcurrentHashMap
 
-class Main : Plugin(), ForgeInstance {
+interface ForgeManager : Closeable {
 
-    private var forgeManager: ForgeManager? = null
+    val instance: ForgeInstance
 
-    override fun onEnable() {
-        forgeManager = ForgeManagerBungee(this)
-        forgeManager?.initialize()
-    }
+    fun initialize()
 
-    override fun onDisable() {
-        forgeManager?.close()
-        forgeManager = null
-    }
+    fun getMods(player: String): Mods?
+}
+
+abstract class ForgeManagerBase(override val instance: ForgeInstance) : ForgeManager {
+
+    protected val modMaps: MutableMap<String, Mods> = ConcurrentHashMap()
+
+    override fun getMods(player: String): Mods? = modMaps[player]
+
+    override fun initialize() { modMaps.clear() }
+
+    override fun close() { modMaps.clear() }
 }

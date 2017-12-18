@@ -17,13 +17,29 @@
 
 package com.mcmoonlake.forgehandshake
 
+import com.mcmoonlake.forgehandshake.api.ForgeInstance
+import com.mcmoonlake.forgehandshake.api.ForgeManager
 import org.bukkit.plugin.java.JavaPlugin
 
-class Main : JavaPlugin() {
+class Main : JavaPlugin(), ForgeInstance {
+
+    private var forgeManager: ForgeManager? = null
 
     override fun onEnable() {
+        forgeManager = ForgeManagerSpigot(this)
+        forgeManager?.initialize()
     }
 
     override fun onDisable() {
+        forgeManager?.close()
+        forgeManager = null
     }
+
+//    @EventHandler
+//    fun onClient(event: ForgeClientEvent) {
+//        if(event.hasMod("journeymap")) {
+//            event.isCancelled = true
+//            event.reason = "&c断开连接: 由于你的客户端加载有 \"旅行者地图\" 模组."
+//        }
+//    }
 }

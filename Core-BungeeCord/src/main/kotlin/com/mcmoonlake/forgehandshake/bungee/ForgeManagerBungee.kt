@@ -17,21 +17,15 @@
 
 package com.mcmoonlake.forgehandshake.bungee
 
-import com.mcmoonlake.forgehandshake.api.ForgeInstance
-import com.mcmoonlake.forgehandshake.api.ForgeManager
-import net.md_5.bungee.api.plugin.Plugin
+import com.mcmoonlake.forgehandshake.api.ForgeManagerBase
 
-class Main : Plugin(), ForgeInstance {
+class ForgeManagerBungee(main: Main) : ForgeManagerBase(main) {
 
-    private var forgeManager: ForgeManager? = null
-
-    override fun onEnable() {
-        forgeManager = ForgeManagerBungee(this)
-        forgeManager?.initialize()
+    override fun initialize() {
+        super.initialize()
     }
 
-    override fun onDisable() {
-        forgeManager?.close()
-        forgeManager = null
+    override fun close() {
+        super.close()
     }
 }
