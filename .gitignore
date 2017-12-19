@@ -22,9 +22,11 @@
 hs_err_pid*
 
 # ignore intellij idea setting folder
-/lib/
 /.idea/
 /.metadata/
 /doc/
 /META-INF/
 *.iml
+
+# BungeeCord
+!/lib/BungeeCord.jar

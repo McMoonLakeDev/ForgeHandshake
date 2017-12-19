@@ -16,7 +16,7 @@
 #
 
 name: ForgeHandshake
-main: com.mcmoonlake.forgehandshake.bungee.Main
+main: com.mcmoonlake.forgehandshake.Main
 version: ${project.version}
 author: lgou2w
 authors: [lgou2w]

@@ -19,9 +19,8 @@
 
     <modules>
         <module>API</module>
-        <module>Core-BungeeCord</module>
-        <module>Core-Spigot</module>
-        <module>Plugin</module>
+        <module>Plugin-BungeeCord</module>
+        <module>Plugin-Spigot</module>
     </modules>
 
     <properties>

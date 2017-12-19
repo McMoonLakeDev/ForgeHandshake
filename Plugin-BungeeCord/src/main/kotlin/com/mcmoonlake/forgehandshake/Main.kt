@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.mcmoonlake.forgehandshake.bungee
+package com.mcmoonlake.forgehandshake
 
 import com.mcmoonlake.forgehandshake.api.ForgeInstance
 import com.mcmoonlake.forgehandshake.api.ForgeManager

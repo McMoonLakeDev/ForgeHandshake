@@ -11,26 +11,41 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ForgeHandshakePlugin</artifactId>
+    <artifactId>ForgeHandshake-Plugin-BungeeCord</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <build.final.name>${project.artifactId}-${project.version}</build.final.name>
+        <build.final.name>ForgeHandshakePlugin-BungeeCord-${project.version}</build.final.name>
     </properties>
 
     <dependencies>
-        <!-- Core Dependency -->
+        <!-- Kotlin Dependency -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- API Dependency -->
         <dependency>
             <groupId>com.mcmoonlake</groupId>
-            <artifactId>ForgeHandshake-Core-BungeeCord</artifactId>
+            <artifactId>ForgeHandshakeAPI</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
+        <!-- BungeeCord Dependency -->
         <dependency>
-            <groupId>com.mcmoonlake</groupId>
-            <artifactId>ForgeHandshake-Core-Spigot</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- BungeeCord Proxy Dependency -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-proxy</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

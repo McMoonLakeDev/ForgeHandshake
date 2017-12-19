@@ -27,6 +27,8 @@ interface ForgeManager : Closeable {
     fun initialize()
 
     fun getMods(player: String): Mods?
+
+    fun resetMods(player: String)
 }
 
 abstract class ForgeManagerBase(override val instance: ForgeInstance) : ForgeManager {
@@ -34,6 +36,8 @@ abstract class ForgeManagerBase(override val instance: ForgeInstance) : ForgeMan
     protected val modMaps: MutableMap<String, Mods> = ConcurrentHashMap()
 
     override fun getMods(player: String): Mods? = modMaps[player]
+
+    override fun resetMods(player: String) { modMaps.remove(player) }
 
     override fun initialize() { modMaps.clear() }
 
