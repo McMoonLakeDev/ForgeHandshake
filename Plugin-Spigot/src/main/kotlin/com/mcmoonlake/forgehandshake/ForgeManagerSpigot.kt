@@ -25,12 +25,16 @@ import com.mcmoonlake.forgehandshake.api.Contents
 import com.mcmoonlake.forgehandshake.api.ForgeManagerBase
 import com.mcmoonlake.forgehandshake.api.ModInfo
 import com.mcmoonlake.forgehandshake.api.Mods
+import org.bukkit.entity.Player
 import java.net.InetSocketAddress
 import java.util.concurrent.ConcurrentHashMap
 
 class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
 
     private val cancelledMaps: MutableMap<String, String> = ConcurrentHashMap()
+
+    override val instance: Main
+        get() = super.instance as Main
 
     private val listener = object: PacketListenerAnyAdapter(main) {
         override fun onSending(event: PacketEvent) {
@@ -41,7 +45,7 @@ class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
             }
             if(event.player != null) {
                 val player = event.player.notNull()
-                val reason = cancelledMaps.remove(player.address.toString()) ?: return
+                val reason = cancelledMaps.remove(getPlayerKey(player)) ?: return
                 event.packet = PacketOutKickDisconnect(ChatSerializer.fromRaw(reason))
             }
         }
@@ -75,6 +79,9 @@ class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
         cancelledMaps.clear()
         PacketListeners.unregisterListener(listener)
     }
+
+    fun getPlayerKey(player: Player): String
+            = player.address.toString()
 
     private fun writeForgeRegisterPacket(): PacketBuffer
             = PacketBuffer().writeStrings(Contents.CHANNELS)

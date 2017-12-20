@@ -17,6 +17,8 @@
 
 package com.mcmoonlake.forgehandshake
 
+import com.mcmoonlake.api.getMoonLake
+import com.mcmoonlake.api.service.ServiceForgeHandshake
 import com.mcmoonlake.forgehandshake.api.ForgeInstance
 import com.mcmoonlake.forgehandshake.api.ForgeManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -28,6 +30,8 @@ class Main : JavaPlugin(), ForgeInstance {
     override fun onEnable() {
         forgeManager = ForgeManagerSpigot(this)
         forgeManager?.initialize()
+        val service = ForgeHandshakeService(forgeManager as ForgeManagerSpigot)
+        getMoonLake().serviceManager.registerService(ServiceForgeHandshake::class.java, service)
     }
 
     override fun onDisable() {
