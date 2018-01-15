@@ -25,8 +25,6 @@ import com.mcmoonlake.forgehandshake.api.Contents
 import com.mcmoonlake.forgehandshake.api.ForgeManagerBase
 import com.mcmoonlake.forgehandshake.api.ModInfo
 import com.mcmoonlake.forgehandshake.api.Mods
-import org.bukkit.entity.Player
-import java.net.InetSocketAddress
 import java.util.concurrent.ConcurrentHashMap
 
 class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
@@ -38,28 +36,27 @@ class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
 
     private val listener = object: PacketListenerAnyAdapter(main) {
         override fun onSending(event: PacketEvent) {
-            if(event.packet is PacketOutJoinGame && event.channel != null) {
-                val channel = event.channel.notNull()
-                channel.writeAndFlush(Packets.createBufferPacket(PacketOutPayload(Contents.REGISTER, writeForgeRegisterPacket())))
-                channel.writeAndFlush(Packets.createBufferPacket(PacketOutPayload(Contents.HANDSHAKE, writeForgeServerHelloPacket())))
+            if(event.packet is PacketOutJoinGame && event.player != null) {
+                val player = event.player.notNull()
+                PacketOutPayload(Contents.REGISTER, writeForgeRegisterPacket()).send(player)
+                PacketOutPayload(Contents.HANDSHAKE, writeForgeServerHelloPacket()).send(player)
             }
             if(event.player != null) {
                 val player = event.player.notNull()
-                val reason = cancelledMaps.remove(getPlayerKey(player)) ?: return
+                val reason = cancelledMaps.remove(player.name) ?: return
                 event.packet = PacketOutKickDisconnect(ChatSerializer.fromRaw(reason))
             }
         }
         override fun onReceiving(event: PacketEvent) {
-            if(event.packet is PacketInPayload && event.channel != null) {
+            if(event.packet is PacketInPayload && event.player != null) {
                 val packet = event.packet as PacketInPayload
                 val buffer = packet.data
                 if(packet.channel == Contents.HANDSHAKE && buffer.readByte().toInt() == Contents.PACKET_MODINFO_LIST) {
-                    val channel = event.channel.notNull()
-                    val host = (channel.remoteAddress() as InetSocketAddress).toString()
+                    val player = event.player.notNull()
                     val mods = Mods((0 until buffer.readVarInt()).map { ModInfo(buffer.readString(), buffer.readString()) })
-                    val forgeEvent = ForgeClientEvent(host, mods); forgeEvent.callEvent()
-                    if(forgeEvent.isCancelled) cancelledMaps.put(host, forgeEvent.reason)
-                    else modMaps.put(host, mods)
+                    val forgeEvent = ForgeClientEvent(player.name, mods); forgeEvent.callEvent()
+                    if(forgeEvent.isCancelled) cancelledMaps.put(player.name, forgeEvent.reason)
+                    else modMaps.put(player.name, mods)
                 }
             }
         }
@@ -79,9 +76,6 @@ class ForgeManagerSpigot(main: Main) : ForgeManagerBase(main) {
         cancelledMaps.clear()
         PacketListeners.unregisterListener(listener)
     }
-
-    fun getPlayerKey(player: Player): String
-            = player.address.toString()
 
     private fun writeForgeRegisterPacket(): PacketBuffer
             = PacketBuffer().writeStrings(Contents.CHANNELS)

@@ -35,16 +35,12 @@ class ForgeHandshakeService(private val manager: ForgeManagerSpigot) : ServiceAb
     override fun getMods(player: MoonLakePlayer): Array<Mod>?
             = getMods(player.bukkitPlayer)
 
-    override fun getMods(player: Player): Array<Mod>? {
-        val key = manager.getPlayerKey(player)
-        return manager.getMods(key)?.map { Mod(it.modid, it.version) }?.toTypedArray()
-    }
+    override fun getMods(player: Player): Array<Mod>?
+            = manager.getMods(player.name)?.map { Mod(it.modid, it.version) }?.toTypedArray()
 
     override fun resetMods(player: MoonLakePlayer): Boolean
             = resetMods(player.bukkitPlayer)
 
-    override fun resetMods(player: Player): Boolean {
-        val key = manager.getPlayerKey(player)
-        return manager.resetMods(key)
-    }
+    override fun resetMods(player: Player): Boolean
+            = manager.resetMods(player.name)
 }

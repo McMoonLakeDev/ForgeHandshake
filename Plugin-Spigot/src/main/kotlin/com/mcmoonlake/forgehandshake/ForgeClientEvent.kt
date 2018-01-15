@@ -33,9 +33,6 @@ class ForgeClientEvent(
         get() = cancel
         set(value) { cancel = value }
 
-    override val isRealName: Boolean
-        get() = false
-
     override fun getHandlers(): HandlerList
             = handlerList
 

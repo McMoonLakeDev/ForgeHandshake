@@ -45,8 +45,6 @@ interface ForgeEvent {
 
     val player: String
 
-    val isRealName: Boolean
-
     val mods: Mods?
 
     var reason: String
